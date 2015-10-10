@@ -1,0 +1,5 @@
+applications:
+- name: ParseLanguage
+  command: npm start
+  path: .
+  memory: 256M
