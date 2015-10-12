@@ -27,18 +27,34 @@ var acceptLanguage = require('accept-language');
 var router = express.Router();
 
 /*
- * GET to find a ticker symbol for a company.
- * name = company name
+ * GET to parse the client's requested lanaguge and select
+ * the best available suppored language
  */
 
 router.get('/parse', function(req, res) {
-  var supportedLanguages = ['en', 'fr'];
+  /*
+  * This is the list of supported languages for the service,
+  * the first language is the fallback language that will be used in the event
+  * someone requests a language that is unsupported.
+  */
+
+  var supportedLanguages = ['en', 'fr', 'es', 'de'];
   acceptLanguage.languages(supportedLanguages);
+
+  // Get the requested client side language
   var requestedLanguage = req.headers['accept-language'].toString();
-  var bestLanguageMatch = acceptLanguage.get(requestedLanguage);
+
+  /*
+  * Determine the best language match and return the best match and the
+  * original requested language
+  */
+  var bestLanguageMatch = {
+    available : acceptLanguage.get(requestedLanguage),
+    requested: requestedLanguage
+  };
+
   res.json(bestLanguageMatch);
 });
-
 
 
 module.exports = router;
