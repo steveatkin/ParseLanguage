@@ -38,22 +38,26 @@ router.get('/parse', function(req, res) {
   * someone requests a language that is unsupported.
   */
 
-  var supportedLanguages = ['en', 'fr', 'es', 'de'];
+  var supportedLanguages = ['en-US', 'fr-FR', 'es-ES', 'de-DE'];
   acceptLanguage.languages(supportedLanguages);
 
   // Get the requested client side language
   var requestedLanguage = req.headers['accept-language'].toString();
+  var bestLanguageMatch = acceptLanguage.get(requestedLanguage);
+
+  var dateStamp = new Intl.DateTimeFormat(bestLanguageMatch).format(new Date());
 
   /*
   * Determine the best language match and return the best match and the
   * original requested language
   */
-  var bestLanguageMatch = {
-    available : acceptLanguage.get(requestedLanguage),
-    requested: requestedLanguage
+  var languageNegotiation = {
+    available : bestLanguageMatch,
+    requested: requestedLanguage,
+    date: dateStamp
   };
 
-  res.json(bestLanguageMatch);
+  res.json(languageNegotiation);
 });
 
 
