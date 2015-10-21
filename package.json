@@ -11,6 +11,6 @@
     "express": "~4.13.1",
     "request": "^2.60.0",
     "accept-language": "~2.0.16",
-    "full-icu": "^1.0.0-PREALPHA"
+    "full-icu": "^1.0.2"
   }
 }
